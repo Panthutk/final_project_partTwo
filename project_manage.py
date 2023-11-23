@@ -1,61 +1,86 @@
 # import database module
+import database as db
+import csv
+import os
 
-# define a funcion called initializing
+# define a function called initializing
+my_db = db.DB()
+
 
 def initializing():
-    pass
+    # create a 'persons' table
+    persons_table = db.Table('persons', [])
 
-# here are things to do in this function:
+    # add the 'persons' table into the database
+    csv_file_path = os.path.join(os.getcwd(), 'persons.csv')
+    with open(csv_file_path, 'r') as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+        for row in csv_reader:
+            persons_table.insert_entry(row)
 
-    # create an object to read all csv files that will serve as a persistent state for this program
+    # create a 'login table' table
+    login_table = db.Table('login', [])
 
-    # create all the corresponding tables for those csv files
+    # add the login table into the database
+    csv_file_path = os.path.join(os.getcwd(), 'login.csv')
+    with open(csv_file_path, 'r') as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+        for row in csv_reader:
+            login_table.insert_entry(row)
 
-    # see the guide how many tables are needed
-
-    # add all these tables to the database
+    return persons_table, login_table
 
 
-# define a funcion called login
-
+# define a function called login
 def login():
-    pass
+    access = False
+    while not access:
+        person_id = input("Enter your username: ")
+        password = input("Enter your password: ")
+        if person_id and password != " " or "":
+            for i in range(len(login_table.table)):
+                if login_table.table[i]['username'] == person_id and login_table.table[i]['password'] == password:
+                    access = True
+                    print("Login successful!")
+                    return person_id, login_table.table[i]['role']
+        elif person_id == 'exit' or password == 'exit':
+            print("Exiting...")
+            break
+        else:
+            print("Invalid username or password. Please try again.")
 
-# here are things to do in this function:
-   # add code that performs a login task
-        # ask a user for a username and password
-        # returns [ID, role] if valid, otherwise returning None
 
 # define a function called exit
+
+
 def exit():
     pass
 
-# here are things to do in this function:
-   # write out all the tables that have been modified to the corresponding csv files
-   # By now, you know how to read in a csv file and transform it into a list of dictionaries. For this project, you also need to know how to do the reverse, i.e., writing out to a csv file given a list of dictionaries. See the link below for a tutorial on how to do this:
-   
-   # https://www.pythonforbeginners.com/basics/list-of-dictionaries-to-csv-in-python
-
 
 # make calls to the initializing and login functions defined above
-
-initializing()
-val = login()
-
+person_table, login_table = initializing()
+print(login_table.table)
+person_id, role = login()
 # based on the return value for login, activate the code that performs activities according to the role defined for that person_id
 
-# if val[1] = 'admin':
+if role == 'admin':
     # see and do admin related activities
-# elif val[1] = 'student':
+    pass
+elif role == 'student':
     # see and do student related activities
-# elif val[1] = 'member':
+    pass
+elif role == 'member':
     # see and do member related activities
-# elif val[1] = 'lead':
+    pass
+elif role == 'lead':
     # see and do lead related activities
-# elif val[1] = 'faculty':
+    pass
+elif role == 'faculty':
     # see and do faculty related activities
-# elif val[1] = 'advisor':
+    pass
+elif role == 'advisor':
     # see and do advisor related activities
+    pass
 
-# once everyhthing is done, make a call to the exit function
+# once everything is done, make a call to the exit function
 exit()
