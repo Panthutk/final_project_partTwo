@@ -11,6 +11,19 @@ def initializing():
     # create a 'persons' table
     persons_table = db.Table('persons', [])
 
+    if "project" not in persons_table.table:
+        persons_table.add_column("project", [])
+    if "detail" not in person_table.table:
+        persons_table.add_column("detail", [])
+    if "lead" not in persons_table.table:
+        persons_table.add_column("lead", [])
+    if "member" not in persons_table.table:
+        persons_table.add_column("member", [])
+    if "advisor" not in persons_table.table:
+        persons_table.add_column("advisor", [])
+    if "status" not in persons_table.table:
+        persons_table.add_column("status", [])
+
     # add the 'persons' table into the database
     csv_file_path = os.path.join(os.getcwd(), 'persons.csv')
     with open(csv_file_path, 'r') as csv_file:
@@ -62,13 +75,43 @@ person_table, login_table = initializing()
 print(login_table.table)
 person_id, role = login()
 # based on the return value for login, activate the code that performs activities according to the role defined for that person_id
-
+process = False
 if role == 'admin':
     # see and do admin related activities
-    pass
+    while not process:
+        print("Welcome to the admin menu!")
+        print("1. View all projects")
+        print("2. View all students")
+        print("3. update a table")
+        print("4. exit")
+        choice = input("Enter your choice: ")
+        if choice == '1':
+            print(person_table.table["project"])
+        elif choice == '2':
+            temp = []
+            for i in range(len(person_table.table)):
+                temp.append(person_table.table[i]['student'])
+            print(temp)
+        elif choice == '3':
+            table_name = input("Enter the table name: ")
+            key = input("Enter the key: ")
+            new_value = input("Enter the new value: ")
+            person_table.update_entry(table_name, key, new_value)
+        elif choice == '4':
+            process = True
+        else:
+            print("Invalid choice. Please try again.")
+    exit()
+
 elif role == 'student':
     # see and do student related activities
-    pass
+    print("Welcome to the student menu!")
+    print("1. View invitation from lead")
+    print("2. Accept or reject invitation")
+    print("3. View project details")
+    print("4. Create new project")
+    print("5. Exit")
+
 elif role == 'member':
     # see and do member related activities
     pass
