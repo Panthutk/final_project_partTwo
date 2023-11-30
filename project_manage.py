@@ -17,12 +17,16 @@ def initializing():
         persons_table.add_column("detail", [])
     if "lead" not in persons_table.table:
         persons_table.add_column("lead", [])
-    if "member" not in persons_table.table:
-        persons_table.add_column("member", [])
+    if "member1" not in persons_table.table:
+        persons_table.add_column("member1", [])
+    if "member2" not in persons_table.table:
+        persons_table.add_column("member2", [])
     if "advisor" not in persons_table.table:
         persons_table.add_column("advisor", [])
-    if "status" not in persons_table.table:
-        persons_table.add_column("status", [])
+    if "status1" not in persons_table.table:
+        persons_table.add_column("status1", [])
+    if "status2" not in persons_table.table:
+        persons_table.add_column("status2", [])
 
     # add the 'persons' table into the database
     csv_file_path = os.path.join(os.getcwd(), 'persons.csv')
@@ -108,9 +112,62 @@ elif role == 'student':
     print("Welcome to the student menu!")
     print("1. View invitation from lead")
     print("2. Accept or reject invitation")
-    print("3. View project details")
-    print("4. Create new project")
-    print("5. Exit")
+    print("3. Create new project")
+    print("4. Exit")
+    choice = input("Enter your choice: ")
+    while not process:
+        if choice == "1":
+            print("Invitation from lead: ")
+            for count in range(len(person_table.table)):
+                if person_table.table[count]['member1'] == person_id or person_table.table[count]['member2'] == person_id:
+                    print(
+                        f"Project name: {person_table.table[count]['project']} from {person_table.table[count]['lead']}")
+        elif choice == "2":
+            print("Accept or reject invitation: ")
+            for count in range(len(person_table.table)):
+                if person_table.table[count]['member1'] == person_id:
+                    print(
+                        f"Project name: {person_table.table[count]['project']} from {person_table.table[count]['lead']}")
+                    print("Accept or Reject?")
+                    choice = input("Enter your choice: ")
+                    if choice == "Accept":
+                        person_table.table[count]['status1'] = "accept"
+                    elif choice == "Reject":
+                        person_table.table[count]['status1'] = "reject"
+                    else:
+                        print("Invalid choice. Please try again.")
+                elif person_table.table[count]['member2'] == person_id:
+                    print(
+                        f"Project name: {person_table.table[count]['project']} from {person_table.table[count]['lead']}")
+                    print("Accept or Reject?")
+                    choice = input("Enter your choice: ")
+                    if choice == "Accept":
+                        person_table.table[count]['status2'] = "accept"
+                    elif choice == "Reject":
+                        person_table.table[count]['status2'] = "reject"
+                    else:
+                        print("Invalid choice. Please try again.")
+        elif choice == "3":
+            print("Creating new project...")
+            project_name = input("Enter the project name: ")
+            project_detail = input("Enter the project detail: ")
+            project_member1 = input("Enter the project member username: ")
+            project_member2 = input("Enter the project member username: ")
+            for count in range(len(person_table.table)):
+                if person_table.table[count]['student'] == person_id:
+                    person_table.table[count]['project'] = project_name
+                    person_table.table[count]['detail'] = project_detail
+                    person_table.table[count]['member1'] = project_member1
+                    person_table.table[count]['member2'] = project_member2
+                    person_table.table[count]['status1'] = "pending"
+                    person_table.table[count]['status2'] = "pending"
+                    break
+            print("Project created!")
+        elif choice == "4":
+            process = True
+        else:
+            print("Invalid choice. Please try again.")
+    exit()
 
 elif role == 'member':
     # see and do member related activities
