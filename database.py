@@ -46,3 +46,7 @@ class Table:
             if key in entry:
                 entry[key] = new_value
                 break
+
+    def add_column(self, column_name, default_value):
+        for entry in self.table:
+            entry[column_name] = default_value
