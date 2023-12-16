@@ -1,47 +1,42 @@
-# import database module
+# project_manage.py
 
-from database import Table, DB
-import csv
-import os
+from database import DatabaseManager, Table
 
-# define a function called initializing
-my_db = DB()
+# Create a DatabaseManager instance
+db_manager = DatabaseManager()
+
+# Initialize function to create tables and add columns
 
 
 def initializing():
-    # create a 'persons' table
-    persons_table = Table('persons', 'persons.csv')
+    # Insert a 'persons' table into the database
+    persons_table = db_manager.insert_table('persons', 'persons.csv')
 
-    if "project" not in persons_table.table:
-        persons_table.add_column("project", [])
-    if "detail" not in persons_table.table:
-        persons_table.add_column("detail", [])
-    if "member1" not in persons_table.table:
-        persons_table.add_column("member1", [])
-    if "member2" not in persons_table.table:
-        persons_table.add_column("member2", [])
-    if "advisor" not in persons_table.table:
-        persons_table.add_column("advisor", [])
-    if "status1" not in persons_table.table:
-        persons_table.add_column("status1", [])
-    if "status2" not in persons_table.table:
-        persons_table.add_column("status2", [])
-    if "submit" not in persons_table.table:
-        persons_table.add_column("submit", [])
+    # Insert a 'login' table into the database
+    login_table = db_manager.insert_table('login', 'login.csv')
 
-    # add the 'persons' table into the database
-    my_db.insert(persons_table)
-
-    # create a 'login table' table
-    login_table = Table('login', 'login.csv')
-
-    # add the login table into the database
-    my_db.insert(login_table)
+    # Add columns to the 'persons' table if they don't exist
+    persons_table.add_column("project", [])
+    persons_table.add_column("detail", [])
+    persons_table.add_column("member1", [])
+    persons_table.add_column("member1_msg", [])
+    persons_table.add_column("member2_msg", [])
+    persons_table.add_column("member2", [])
+    persons_table.add_column("advisor", [])
+    persons_table.add_column("status1", [])
+    persons_table.add_column("status2", [])
+    persons_table.add_column("submit", [])
 
     return persons_table, login_table
 
 
-# define a function called login
+# Initialize tables
+persons_table, login_table = initializing()
+print(login_table.table)
+
+# Login function
+
+
 def login():
     access = False
     while not access:
@@ -60,17 +55,18 @@ def login():
         else:
             print("Invalid username or password. Please try again.")
 
-
-# define a function called exit
-def exit():
-    pass
+# Exit function
 
 
-# make calls to the initializing and login functions defined above
-persons_table, login_table = initializing()
-print(login_table.table)
+def exit_program():
+    print("Exiting...")
+    # Additional cleanup or exit logic can be added here
+
+
+# Make calls to the login function
 person_id, role = login()
-# based on the return value for login, activate the code that performs activities according to the role defined for that person_id
+
+# Based on the return value for login, activate the code that performs activities according to the role defined for that person_id
 process = False
 if role == 'admin':
     # see and do admin related activities
@@ -78,15 +74,16 @@ if role == 'admin':
         print("Welcome to the admin menu!")
         print("1. View all projects")
         print("2. View all students")
-        print("3. update a table")
-        print("4. exit")
+        print("3. Update a table")
+        print("4. Exit")
         choice = input("Enter your choice: ")
         if choice == '1':
-            print(persons_table.table["project"])
+            print(persons_table.table)
         elif choice == '2':
             temp = []
-            for i in persons_table.table["type"] == "student":
-                temp.append(persons_table.table[i])
+            for i in persons_table.table:
+                if i['type'] == "student":
+                    temp.append(i)
             print(temp)
         elif choice == '3':
             table_name = input("Enter the table name: ")
@@ -97,56 +94,34 @@ if role == 'admin':
             process = True
         else:
             print("Invalid choice. Please try again.")
-
-
-elif role == 'student':
-    # see and do student related activities
-    print("Welcome to the student menu!")
-    print("1. View invitation from lead")
-    print("2. Accept or reject invitation")
-    print("3. Create project")
+elif role == 'lead':
+    # see and do student-related activities
+    print("Welcome to the lead menu!")
+    print("1. Create project")
+    print("2. View project")
+    print("3. Modify project")
     print("4. Exit")
-
     while not process:
         choice = input("Enter your choice: ")
-
         if choice == "1":
-            print("Invitation from lead:")
-            for count in range(len(persons_table.table)):
-                if persons_table.table[count]['member1'] == person_id or persons_table.table[count]['member2'] == person_id:
-                    print(
-                        f"Project name: {persons_table.table[count]['project']} from {persons_table.table[count]['first']}")
-        elif choice == "2":
-            print("Accept or reject invitation:")
-            for count in range(len(persons_table.table)):
-                if persons_table.table[count]['member1'] == person_id:
-                    print("Accept or Reject?")
-                    status_choice = input("Enter your choice: ")
-                    if status_choice == "Accept":
-                        persons_table.table[count]['status1'] = "accept"
-                        persons_table.table[count]['type'] = "member"
-                    elif status_choice == "Reject":
-                        persons_table.table[count]['status1'] = "reject"
-                        persons_table.table[count]['type'] = "student"
-                    else:
-                        print("Invalid choice. Please try again.")
-                elif persons_table.table[count]['member2'] == person_id:
-                    print(
-                        f"Project name: {persons_table.table[count]['project']} from {persons_table.table[count]['lead']}")
-                    print("Accept or Reject?")
-                    status_choice = input("Enter your choice: ")
-                    if status_choice == "Accept":
-                        persons_table.table[count]['status2'] = "accept"
-                    elif status_choice == "Reject":
-                        persons_table.table[count]['status2'] = "reject"
-                    else:
-                        print("Invalid choice. Please try again.")
-        elif choice == "3":
-            print("Creating new project...")
+            print("Creating a new project...")
             project_name = input("Enter the project name: ")
             project_detail = input("Enter the project detail: ")
-            project_member1 = input("Enter the project member username: ")
-            project_member2 = input("Enter the project member username: ")
+            while check < 2:
+                project_member1 = input("Enter the project member username: ")
+                project_member1_msg = input(
+                    "Enter the project member1 message: ")
+                project_member2 = input("Enter the project member username: ")
+                project_member2_msg = input(
+                    "Enter the project member2 message: ")
+                check = 0
+                for entry in login_table.table:
+                    if entry['username'] == project_member1:
+                        check += 1
+                    if entry['username'] == project_member2:
+                        check += 1
+                if check < 2:
+                    print("Invalid username(s). Please try again.")
             for count in range(len(persons_table.table)):
                 if persons_table.table[count]["first"] == person_id:
                     persons_table.table[count]['project'] = project_name
@@ -156,26 +131,83 @@ elif role == 'student':
                     persons_table.table[count]['status1'] = "pending"
                     persons_table.table[count]['status2'] = "pending"
                     persons_table.table[count]['submit'] = "not submitted"
+                    persons_table.table[count]['member1_msg'] = project_member1_msg
+                    persons_table.table[count]['member2_msg'] = project_member2_msg
                     persons_table.table[count]['type'] = "lead"
                     print("Project created!")
                     break
-        elif choice == "4":
-            process = True
-        else:
-            print("Invalid choice. Please try again.")
+        elif choice == "2":
+            print("Viewing project...")
+            for entry in persons_table.table:
+                if entry['first'] == person_id:
+                    print(entry)
+        elif choice == "3":
+            print("Modifying project...")
+            print("1. Modify project name")
+            print("2. Modify project detail")
+            print("3. Modify project member1")
+            print("4. Modify project member1_msg")
+            print("5. Modify project member2")
+            print("6. Modify project member2_msg")
+            print("7. Exit")
+            modify_choice = input("Enter your choice: ")
+            modify_status = False
+            while not modify_status:
+                if modify_choice == "1":
+                    new_project_name = input("Enter the new project name: ")
+                    for entry in persons_table.table:
+                        if entry['first'] == person_id:
+                            entry['project'] = new_project_name
+                            print("Project name updated!")
+                            modify_status = True
+                elif modify_choice == "2":
+                    new_project_detail = input(
+                        "Enter the new project detail: ")
+                    for entry in persons_table.table:
+                        if entry['first'] == person_id:
+                            entry['detail'] = new_project_detail
+                            print("Project detail updated!")
+                            modify_status = True
+                elif modify_choice == "3":
+                    new_project_member1 = input(
+                        "Enter the new project member1: ")
+                    for entry in persons_table.table:
+                        if entry['first'] == person_id:
+                            entry['member1'] = new_project_member1
+                            print("Project member1 updated!")
+                            modify_status = True
+                elif modify_choice == "4":
+                    new_project_member1_msg = input(
+                        "Enter the new project member1_msg: ")
+                    for entry in persons_table.table:
+                        if entry['first'] == person_id:
+                            entry['member1_msg'] = new_project_member1_msg
+                            print("Project member1_msg updated!")
+                            modify_status = True
+                elif modify_choice == "5":
+                    new_project_member2 = input(
+                        "Enter the new project member2: ")
+                    for entry in persons_table.table:
+                        if entry['first'] == person_id:
+                            entry['member2'] = new_project_member2
+                            print("Project member2 updated!")
+                            modify_status = True
+                elif modify_choice == "6":
+                    new_project_member2_msg = input(
+                        "Enter the new project member2_msg: ")
+                    for entry in persons_table.table:
+                        if entry['first'] == person_id:
+                            entry['member2_msg'] = new_project_member2_msg
+                            print("Project member2_msg updated!")
+                            modify_status = True
+                elif modify_choice == "7":
+                    modify_status = True
+                else:
+                    print("Invalid choice. Please try again.")
 
-elif role == 'member':
-    # see and do member related activities
-    pass
-elif role == 'lead':
-    # see and do lead related activities
-    print("Welcome to the lead menu!")
-elif role == 'faculty':
-    # see and do faculty related activities
-    pass
-elif role == 'advisor':
-    # see and do advisor related activities
-    pass
 
-# once everything is done, make a call to the exit function
-exit()
+# For other roles ('member', 'lead', 'faculty', 'advisor'), add code for respective activities
+# ...
+
+# Once everything is done, make a call to the exit_program function
+exit_program()
