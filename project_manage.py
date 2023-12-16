@@ -51,6 +51,7 @@ def login():
         for entry in login_table.table:
             if entry['username'] == person_id and entry['password'] == password:
                 print("Login successful!")
+                person_id = person_id[:-2]
                 return person_id, entry['role']
 
         print("Invalid username or password. Please try again.")
