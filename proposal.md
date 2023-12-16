@@ -12,6 +12,5 @@ This is the main objective for this DMSP:
 
 ## Functionalities
 
-1. Reading CSV files:
-The read_csv method in the DatabaseManager class reads data from a specified CSV file and returns it as a list of dictionaries.
-daawdwda
+1. `Reading CSV files:` The read_csv method in the *DatabaseManager* class reads data from a specified CSV file and returns it as a list of dictionaries.
+2. ``
