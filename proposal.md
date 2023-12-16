@@ -28,8 +28,8 @@ The following Python script, `project_manage.py`, implements a basic project man
 ## Initializing
 this is a method used for insert the following tables
 1. `Inserting table ` read and insert table to *db_manager*
-    persons_table = persons.csv
-    login_table = login.csv
+    · persons_table = persons.csv
+    · login_table = login.csv
 2. `Check the persons.csv:` if it have all the column that the system need to used it not it will add automatically by call *add_column* functions then return as person_and login_table
 
 
