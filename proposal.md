@@ -1,4 +1,4 @@
-### DMSP(Data Management System Proposal)
+# DMSP(Data Management System Proposal)
 ## Execute Summary
 This is proposal design from the basic DMSP in python that we sturdy in class with Aj.Paruj . The system will provide user basic solution for
 managing data through CSV files. The DMSP include basic functions such as reading data from CSV files, inserting tables,searching for tables 
@@ -24,7 +24,7 @@ The *save_table* method in the Table class saves the table back to a CSV file.
 
 ---
 
-### Project Management System
+# Project Management System
 The following Python script, `project_manage.py`, implements a basic project management system. It import from a database module (`database.py`) that provides functionality for managing tables and entries. as `bd_manager`
 
 ## Initializing
@@ -34,5 +34,5 @@ this is a method used for insert the following tables
     * login_table = login.csv
 2. `Check the persons.csv:` if it have all the column that the system need to used it not it will add automatically by call *add_column* functions then return as *person_table* and *login_table*
 
-# calling function initializing() and receives value as `person_table` and `login_table`
+### calling function initializing() and receives value as `person_table` and `login_table`
 
