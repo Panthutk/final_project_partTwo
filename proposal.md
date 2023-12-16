@@ -11,6 +11,20 @@ This is the main objective for this DMSP:
 3. `Ease of used:` User-friendly system for basic python user
 
 ## Functionalities
-
 1. `Reading CSV files:` The read_csv method in the *DatabaseManager* class reads data from a specified CSV file and returns it as a list of dictionaries.
-2. ``
+2. `Inserting table` The *insert_table method* in the *DatabaseManager* class inserts a new table into the system by reading data from a CSV file and creating a corresponding Table object.
+3. `3. Searching for Tables` The *search_table* method in the *DatabaseManager* class searches for a table by name and returns the corresponding Table object.
+4. `Insert Entire Tables` The *insert_entry* method in the Table class adds a new entry to the table.
+5. `Updating Entries`
+The *update_entry* method in the Table class updates a specific entry in the table based on a key-value pair.
+6. `Adding Columns`
+The *add_column* method in the Table class adds a new column to the table if it does not already exist.
+7. `Saving Tables`
+The *save_table* method in the Table class saves the table back to a CSV file.
+
+### Project Management System
+The following Python script, `project_manage.py`, implements a basic project management system. It import from a database module (`database.py`) that provides functionality for managing tables and entries. as `bd_manager`
+
+## Initializing
+    1. 'Inserting table '
+        persons_table = persons.csv
