@@ -6,9 +6,9 @@ inserting entires to table,update entire table ,adding columns to table and savi
 
 ## Objective
 This is the main objective for this DMSP:
-1. `Efficient management:` The efficient management of data through CSV files.
-2. `Flexibility:` Allow users to dynamically insert tables, search for tables, insert entries, update entries, add columns, and save tables.
-3. `Ease of used:` User-friendly system for basic python user
+1. `Efficient management` The efficient management of data through CSV files.
+2. `Flexibility` Allow users to dynamically insert tables, search for tables, insert entries, update entries, add columns, and save tables.
+3. `Ease of used` User-friendly system for basic python user
 
 ## Functionalities
 1. `Reading CSV files` The read_csv method in the *DatabaseManager* class reads data from a specified CSV file and returns it as a list of dictionaries.
@@ -29,10 +29,10 @@ The following Python script, `project_manage.py`, implements a basic project man
 
 
 ## Initializing
-1. `Inserting table ` read and insert table to `db_manager`
+1. `Inserting table` read and insert table to `db_manager`
     * persons_table = persons.csv
     * login_table = login.csv
-2. `Check the persons.csv:` if it have all the column that the system need to used it not it will add automatically by call `add_column` functions then return as `person_table` and *login_table*
+2. `Check the persons.csv` if it have all the column that the system need to used it not it will add automatically by call `add_column` functions then return as `person_table` and *login_table*
 
 ## Login
 `login()` is method used for login and used data from login.csv if the user and password match in login_table username and password it will return `person_id and role` but it will remove last two character from person_id for further used in other function . Else it will Invalid and need to repeat again
