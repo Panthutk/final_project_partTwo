@@ -22,14 +22,17 @@ The *add_column* method in the Table class adds a new column to the table if it 
 7. `Saving Tables`
 The *save_table* method in the Table class saves the table back to a CSV file.
 
+---
+
 ### Project Management System
 The following Python script, `project_manage.py`, implements a basic project management system. It import from a database module (`database.py`) that provides functionality for managing tables and entries. as `bd_manager`
 
 ## Initializing
 this is a method used for insert the following tables
 1. `Inserting table ` read and insert table to *db_manager*
-    · persons_table = persons.csv
-    · login_table = login.csv
-2. `Check the persons.csv:` if it have all the column that the system need to used it not it will add automatically by call *add_column* functions then return as person_and login_table
+    * persons_table = persons.csv
+    * login_table = login.csv
+2. `Check the persons.csv:` if it have all the column that the system need to used it not it will add automatically by call *add_column* functions then return as *person_table* and *login_table*
 
+# calling function initializing() and receives value as `person_table` and `login_table`
 
