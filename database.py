@@ -46,3 +46,9 @@ class Table:
             # If not, add the new column to all entries
             for entry in self.table:
                 entry[column_name] = default_value
+
+    def save_table(self, filename):
+        with open(filename, 'w', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=self.table[0].keys())
+            writer.writeheader()
+            writer.writerows(self.table)
