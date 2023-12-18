@@ -367,10 +367,12 @@ while not process:
                             if modify_choice == "1":
                                 entry["advisor_msg"] = input(
                                     "Enter the new message: ")
+                                entry["advisor"] = person_id
                                 print("Message added!")
                                 modify_status = True
                             elif modify_choice == "2":
                                 entry["advisor_status"] = "approved"
+                                entry["advisor"] = person_id
                                 print("Project approved!")
                                 modify_status = True
                             elif modify_choice == "3":
